@@ -12,9 +12,7 @@ async function fetchWeatherData(country) {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${country}&appid=${apiKey}&units=metric`;
     try {
         const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Country not found');
-        }
+      
         const data = await response.json();
         displayWeatherData(data);
     } catch (error) {
@@ -24,12 +22,32 @@ async function fetchWeatherData(country) {
 
 function displayWeatherData(data) {
     const weatherResult = document.getElementById('weatherResult');
+    const text= document.getElementById('textt')
+    text.innerHTML=
+    `<h2> ${data.name}</h2>
+    <p class="description">${data.weather[0].description}</p>`
+  
+    const circle = document.getElementById('circle');
+    circle.innerHTML = `
+  <div class="sun">
+<p> ${data.main.temp}°C</p>
+</div>
+    `
     weatherResult.innerHTML = `
         <div class="weather-info">
-            <h2>Weather in ${data.name}, ${data.sys.country}</h2>
-            <p>Temperature: ${data.main.temp}°C</p>
-            <p>Weather: ${data.weather[0].description}</p>
-            <p>Humidity: ${data.main.humidity}%</p>
-            <p>Wind Speed: ${data.wind.speed} m/s</p>
+        <div id="first">
+            <p class="thick" >Weather: </p><p>${data.weather[0].description}</p>
+            </br>
+            <p class="thick">Humidity: </p><p>${data.main.humidity}%</p>
         </div>
-    `};
+        <div id="second">
+            <p class="thick">Wind Speed: </p><p>${data.wind.speed} m/s</p>
+             </br>
+            <p class="thick"> Air Pressure: </p><p>${data.main.pressure} mph </p>
+        </div>
+        </div>
+    `}
+    
+
+  
+
